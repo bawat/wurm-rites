@@ -5,22 +5,28 @@ package WurmSleepBonusNotifier;
 
 import java.io.IOException;
 
+import ann.HerokuApp;
+import ann.UploadToHeroku;
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
-import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.Role;
-import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.rest.entity.RestChannel;
-import discord4j.rest.entity.RestRole;
-import discord4j.rest.request.RouterOptions;
-import reactor.core.publisher.Mono;
 import twitter4j.FilterQuery;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
+import heroku.HerokuEnvironmentVariables;
 
 public class Library {
+	
+	@HerokuApp(herokuAppName = "wurm-rites")
+	@UploadToHeroku(environmentVariableName = "WURM_SLEEP_BONUS_NOTIFIER_DISCORD_BOT_TOKEN")
+	@UploadToHeroku(environmentVariableName = "twitter4j.debug")
+	@UploadToHeroku(environmentVariableName = "twitter4j.oauth.accessToken")
+	@UploadToHeroku(environmentVariableName = "twitter4j.oauth.accessTokenSecret")
+	@UploadToHeroku(environmentVariableName = "twitter4j.oauth.consumerKey")
+	@UploadToHeroku(environmentVariableName = "twitter4j.oauth.consumerSecret")
+	
 	public static final long
 		CADENCE = 1296229994281095168L,
 		MELODY = 1287152331193114624L,
@@ -33,10 +39,10 @@ public class Library {
     }
 
     private static void processAnyRites() {
-    	DiscordClient client = DiscordClientBuilder.create(EnvironmentVariables.DISCORD_BOT_TOKEN.get()).build();
+    	DiscordClient client = DiscordClientBuilder.create(HerokuEnvironmentVariables.WURM_SLEEP_BONUS_NOTIFIER_DISCORD_BOT_TOKEN.getEnvVar()).build();
     	client.login().block();
     	
-    	RestChannel announcementChannel = client.getChannelById(Snowflake.of("763270607457484811"));
+    	RestChannel announcementChannel = client.getChannelById(Snowflake.of("763746330526220298"));
     	
         TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
         twitterStream.addListener(new RiteTweetListener(){
