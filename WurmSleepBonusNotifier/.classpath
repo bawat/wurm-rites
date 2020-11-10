@@ -43,6 +43,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="lib" path="C:/Users/bawat/Downloads/HerokuConvenienceAnnotationProcessor.jar"/>
+	<classpathentry kind="lib" path="libs/HerokuConvenienceAnnotationProcessor.jar"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>
