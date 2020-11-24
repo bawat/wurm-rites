@@ -24,8 +24,9 @@ jar {
 }
 
 dependencies {
-   annotationProcessor files('libs/HerokuConvenienceAnnotationProcessor.jar')
-   implementation files('libs/HerokuConvenienceAnnotationProcessor.jar')
+   String processor = "libs/HerokuConvenienceAnnotationProcessor.jar";
+   annotationProcessor files(processor)
+   implementation files(processor)
 
    implementation 'org.slf4j:slf4j-simple:1.6.1'
    implementation 'log4j:log4j:1.2.16'

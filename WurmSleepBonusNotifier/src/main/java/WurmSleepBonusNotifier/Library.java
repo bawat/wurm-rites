@@ -10,6 +10,9 @@ import ann.UploadToHeroku;
 import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
+import discord4j.core.GatewayDiscordClient;
+import discord4j.core.event.domain.lifecycle.DisconnectEvent;
+import discord4j.core.shard.GatewayBootstrap;
 import discord4j.rest.entity.RestChannel;
 import twitter4j.FilterQuery;
 import twitter4j.TwitterException;
@@ -39,22 +42,26 @@ public class Library {
     }
 
     private static void processAnyRites() {
-    	DiscordClient client = DiscordClientBuilder.create(HerokuEnvironmentVariables.WURM_SLEEP_BONUS_NOTIFIER_DISCORD_BOT_TOKEN.getEnvVar()).build();
-    	client.login().block();
-    	
-    	RestChannel announcementChannel = client.getChannelById(Snowflake.of("763746330526220298"));
     	
         TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
         twitterStream.addListener(new RiteTweetListener(){
 
 			@Override
 			void onTweetRecieved(String sender, String tweet) {
+				System.out.println("RECIEVED TWEET: " + tweet);
+				
 				String serverName = sender.toLowerCase().replace("wo_", "");
 				if(serverName.length() > 1) {
 					serverName = (serverName.charAt(0) + "").toUpperCase() + serverName.substring(1, serverName.length()); 
 				}
 				
-				announcementChannel.createMessage("On " + serverName + ":" + System.lineSeparator() + tweet + System.lineSeparator() + "@everyone").block();
+				DiscordClient client = DiscordClientBuilder.create(HerokuEnvironmentVariables.WURM_SLEEP_BONUS_NOTIFIER_DISCORD_BOT_TOKEN.getEnvVar()).build();
+		    	GatewayDiscordClient connectionManager = client.login().block();
+		    	
+			    	RestChannel announcementChannel = client.getChannelById(Snowflake.of("763746330526220298"));
+					announcementChannel.createMessage("On " + serverName + ":" + System.lineSeparator() + tweet + System.lineSeparator() + "everyone").block();
+					
+				connectionManager.logout().block();
 			}
         	
         });
