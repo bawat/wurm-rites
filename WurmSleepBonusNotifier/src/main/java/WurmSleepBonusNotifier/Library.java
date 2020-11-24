@@ -59,7 +59,7 @@ public class Library {
 		    	GatewayDiscordClient connectionManager = client.login().block();
 		    	
 			    	RestChannel announcementChannel = client.getChannelById(Snowflake.of("763746330526220298"));
-					announcementChannel.createMessage("On " + serverName + ":" + System.lineSeparator() + tweet + System.lineSeparator() + "everyone").block();
+					announcementChannel.createMessage("On " + serverName + ":" + System.lineSeparator() + tweet + System.lineSeparator() + "@everyone").block();
 					
 				connectionManager.logout().block();
 			}
