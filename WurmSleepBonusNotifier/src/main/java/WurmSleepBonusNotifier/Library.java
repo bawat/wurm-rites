@@ -38,10 +38,24 @@ public class Library {
 		MY_TWITTER = 81637628L;
 	
     public static void main(String[] args) throws TwitterException, IOException {
+    	addShutdownHook();
     	processAnyRites();
     }
 
-    private static void processAnyRites() {
+    private static void addShutdownHook() {
+    	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Stopping Twitter Stream");
+				TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
+				twitterStream.cleanUp();
+				twitterStream.shutdown();
+				System.out.println("Stopped Twitter Stream");
+			}
+		}));
+	}
+
+	private static void processAnyRites() {
     	
         TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
         twitterStream.addListener(new RiteTweetListener(){
