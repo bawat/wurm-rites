@@ -34,8 +34,8 @@ public class Library {
 		CADENCE = 1296229994281095168L,
 		MELODY = 1287152331193114624L,
 		HARMONY = 1284679919205625856L,
-		DEFIANCE = 1284680677951070209L,
-		MY_TWITTER = 81637628L;
+		DEFIANCE = 1284680677951070209L;
+		//MY_TWITTER = 81637628L;
 	
     public static void main(String[] args) throws TwitterException, IOException {
     	addShutdownHook();
@@ -80,6 +80,6 @@ public class Library {
         	
         });
         
-        twitterStream.filter(new FilterQuery().follow(MY_TWITTER, CADENCE, MELODY, HARMONY, DEFIANCE));
+        twitterStream.filter(new FilterQuery().follow(/*MY_TWITTER, */CADENCE, MELODY, HARMONY, DEFIANCE));
 	}
 }
