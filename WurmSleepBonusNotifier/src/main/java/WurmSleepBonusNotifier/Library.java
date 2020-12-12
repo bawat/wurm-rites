@@ -38,6 +38,7 @@ public class Library {
 		//MY_TWITTER = 81637628L;
 	
     public static void main(String[] args) throws TwitterException, IOException {
+    	System.out.println("Running Java version " + System.getProperty("java.version"));
     	addShutdownHook();
     	processAnyRites();
     }
